@@ -29,7 +29,7 @@
         leave-to-class="-translate-y-4 scale-y-0 opacity-0"
       >
         <HeadlessMenuItems
-          class="absolute left-0 mt-2 w-max min-w-full origin-top-right divide-y divide-gray-100 rounded-lg bg-white dark:bg-neutral-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+          class="absolute z-50 left-0 mt-2 w-max min-w-full origin-top-right divide-y divide-gray-100 rounded-lg bg-white dark:bg-neutral-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
         >
         <slot />
 
