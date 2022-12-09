@@ -8,7 +8,15 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "nuxt": "3.0.0-rc.11",
-    "nuxt-windicss": "^2.5.3"
+    "nuxt": "^3.0.0",
+    "nuxt-headlessui": "^1.0.4",
+    "nuxt-icon": "^0.1.8",
+    "nuxt-windicss": "^2.6.0"
+  },
+  "dependencies": {
+    "@egjs/vue-conveyer": "^1.4.6",
+    "@vueuse/components": "^9.6.0",
+    "@vueuse/core": "^9.6.0",
+    "@vueuse/nuxt": "^9.6.0"
   }
 }
