@@ -1,15 +1,9 @@
 <template>
-    <main>
-        home page
-    </main>
+    <ExercisesList />
 </template>
-	
+
 <script>
-export default {
-	
-}
+    export default {};
 </script>
-	
-<style scoped>
-	
-</style>
+
+<style scoped></style>
