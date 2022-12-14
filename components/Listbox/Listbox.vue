@@ -6,7 +6,7 @@
             <span class="mr-2" v-if="$slots.prefix"
                 ><slot name="prefix">{{ prefix }}</slot></span
             >
-            <span class="basis-full text-left <sm:truncate">{{ label  }}</span>
+            <span class="basis-full text-left <sm:truncate min-w-max">{{ label  }}</span>
             <svg
                 class="h-6 w-6 transform transition-transform duration-200 ease-in-out"
                 :class="open ? 'rotate-180' : 'rotate-0'"

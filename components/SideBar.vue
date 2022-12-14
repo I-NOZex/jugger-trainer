@@ -3,7 +3,7 @@
         class="sidebar fixed md:relative bottom-0 md:bottom-auto md:h-screen md:sticky md:top-0 md:p-4"
     >
         <RoundedBlock
-            class="border-t-2 grid transition-all relative border-gray-500/30 w-screen md:border-0 rounded-none md:rounded-4-xl p-0 md:py-4 shadow-sm md:h-full"
+            class="border-t-2 grid transition-all relative border-gray-500/30 w-screen md:border-0 rounded-none md:rounded-4-xl p-0 md:py-4 shadow-sm md:h-full overflow-hidden"
             :class="isCollapsed ? 'md:w-22' : 'md:w-60'"
         >
             <!-- navigation -->
