@@ -14,7 +14,7 @@
             >
                 <button
                     @click="isCollapsed = !isCollapsed"
-                    class="text-left inline-flex text-dark-secondaryText px-8 py-2 uppercase"
+                    class="text-left inline-flex  px-8 py-2 uppercase"
                 >
                     <span class="transition-colors rounded-full hover:bg-dark-primaryBg/60 p-1 -m-1">
                         <Icon

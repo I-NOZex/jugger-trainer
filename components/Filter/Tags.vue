@@ -1,6 +1,6 @@
 <template>
     <RoundedBlock class="py-2 flex flex-grow basis-full lg:basis-auto">
-        <Chip class="capitalize" is-active> All </Chip>
+        <Chip class="capitalize mr-1" is-active> All </Chip>
 
         <div
             v-show="!isReachStart"
@@ -17,9 +17,9 @@
         <div class="inline-flex relative flex-grow">
             <div
                 ref="hzRef"
-                class="inline-flex absolute overflow-x-auto w-full whitespace-nowrap scrollbar-hide"
+                class="inline-flex gap-1 absolute overflow-x-auto w-full whitespace-nowrap scrollbar-hide"
             >
-                <TagsList
+                <TagsInlineList
                     :tags="[
                         'team-work',
                         'coordination',
