@@ -15,8 +15,12 @@
   },
   "dependencies": {
     "@egjs/vue-conveyer": "^1.4.6",
+    "@pinia/nuxt": "^0.4.6",
     "@vueuse/components": "^9.6.0",
     "@vueuse/core": "^9.6.0",
-    "@vueuse/nuxt": "^9.6.0"
+    "@vueuse/firebase": "^9.6.0",
+    "@vueuse/nuxt": "^9.6.0",
+    "firebase": "^9.15.0",
+    "firebase-admin": "^11.3.0"
   }
 }

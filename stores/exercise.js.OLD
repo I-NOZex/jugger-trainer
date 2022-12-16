@@ -1,0 +1,69 @@
+import { useFirestore } from '@vueuse/firebase/useFirestore';
+import { useAuth } from '@vueuse/firebase/useAuth';
+import {
+    collection,
+    getDocs,
+    limit,
+    orderBy,
+    query,
+    startAfter,
+    startAt,
+    onSnapshot
+} from 'firebase/firestore';
+
+
+const postsLimit = 9;
+
+
+export const useExerciseStore = defineStore('exercise', () => {
+    const nuxtApp = useNuxtApp();
+
+    const exercises = ref([]);
+    const exercise = ref(null)
+    const loading = ref(false)
+    const error = ref(null)
+    const lastExerciseFromPage = computed(() => exercises.value[exercises.value.length - 1])
+    const firstExerciseFromPage = computed(() => exercises.value[0])
+    const getExercises = computed(() => exercises.value)
+
+    const fetch = async () => {
+        loading.value = true;
+         const postsQuery = query(
+                collection(nuxtApp.$firestore, 'exercises'),
+                orderBy('created', 'desc'),
+                limit(postsLimit),
+            
+        ); 
+        const docsSnap = await getDocs(postsQuery);
+        const docs = [];
+        docsSnap.forEach(doc => {
+            docs.push(doc.data());
+        })
+        exercises.value = docs;
+
+        loading.value = false;
+    }
+ 
+    const fetchNextPage = async() => {
+        loading.value = true;
+        const postsQuery = query(
+                collection(nuxtApp.$firestore, 'exercises'),
+                orderBy('created', 'desc'),
+                startAfter(lastExerciseFromPage.value.created),
+                limit(postsLimit),
+        );
+        
+        const docsSnap = await getDocs(postsQuery);
+        const docs = [];
+        docsSnap.forEach(doc => {
+            docs.push(doc.data());
+        })
+        exercises.value = docs;
+
+        loading.value = false;
+    }
+
+  
+    return { getExercises, exercises, fetch, fetchNextPage, lastExerciseFromPage, firstExerciseFromPage }
+  })
+  
