@@ -21,9 +21,9 @@ export default defineNuxtPlugin((NuxtApp) => {
 
   const firebaseApp = initializeApp(firebaseConfig)
 
-  const auth = getAuth(firebaseApp)
+  //const auth = getAuth(firebaseApp)
   const firestore = getFirestore(firebaseApp)
 
   NuxtApp.provide('firestore', firestore)
-  NuxtApp.provide('auth', auth)
+  //NuxtApp.provide('auth', auth)
 })

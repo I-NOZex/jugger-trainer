@@ -49,6 +49,7 @@ export const useExerciseStore = defineStore('exercise', {
 
         async fetch() {
             const nuxtApp = useNuxtApp();
+
             const postsQuery = query(
                 collection(nuxtApp.$firestore, 'exercises'),
                 orderBy('created', 'desc'),
@@ -56,7 +57,7 @@ export const useExerciseStore = defineStore('exercise', {
             );
 
             this.$patch({ exercises: await this.fetchData(postsQuery) });
-            this.firstPageId = this.exercises[0].eid;
+            this.firstPageId = this.exercises[0]?.eid;
             //this.fetchRemaining(nuxtApp);
 
         },
