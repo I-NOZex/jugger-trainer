@@ -11,59 +11,89 @@ import {
     onSnapshot
 } from 'firebase/firestore';
 
-
 const postsLimit = 9;
 
-
 export const useExerciseStore = defineStore('exercise', () => {
-    const nuxtApp = useNuxtApp();
-
     const exercises = ref([]);
-    const exercise = ref(null)
-    const loading = ref(false)
-    const error = ref(null)
-    const lastExerciseFromPage = computed(() => exercises.value[exercises.value.length - 1])
-    const firstExerciseFromPage = computed(() => exercises.value[0])
-    const getExercises = computed(() => exercises.value)
+    const loading = ref(false);
+    const firstPageId = ref(null);
+    const filters = ref({
+        playersMin: null,
+        exertionLevel: null
+    });
+
+    const getExercises = computed((state) => state.exercises);
+    const lastExerciseFromPage = computed(
+        (state) =>
+            state.exercises && state.exercises[state.exercises.length - 1]
+    );
+    const firstExerciseFromPage = computed(
+        (state) => state.exercises && state.exercises[0]
+    );
+    const getHasPreviousPage = computed(
+        (state) => state.firstExerciseFromPage?.eid !== state.firstPageId
+    );
+
+    const fetchData = async (query) => {
+        this.loading = true;
+
+        const docsSnap = await getDocs(query);
+        const docs = [];
+        docsSnap.forEach((doc) => {
+            docs.push(doc.data());
+        });
+
+        this.loading = false;
+        return docs;
+    };
 
     const fetch = async () => {
-        loading.value = true;
-         const postsQuery = query(
-                collection(nuxtApp.$firestore, 'exercises'),
-                orderBy('created', 'desc'),
-                limit(postsLimit),
-            
-        ); 
-        const docsSnap = await getDocs(postsQuery);
-        const docs = [];
-        docsSnap.forEach(doc => {
-            docs.push(doc.data());
-        })
-        exercises.value = docs;
+        const nuxtApp = useNuxtApp();
 
-        loading.value = false;
-    }
- 
-    const fetchNextPage = async() => {
-        loading.value = true;
+        const filters = [where('playersMin', '>=', 0)];
+
         const postsQuery = query(
-                collection(nuxtApp.$firestore, 'exercises'),
-                orderBy('created', 'desc'),
-                startAfter(lastExerciseFromPage.value.created),
-                limit(postsLimit),
+            collection(nuxtApp.$firestore, 'exercises'),
+            ...filters,
+            orderBy('playersMin', 'asc'),
+            orderBy('created', 'desc'),
+            limit(postsLimit)
         );
-        
-        const docsSnap = await getDocs(postsQuery);
-        const docs = [];
-        docsSnap.forEach(doc => {
-            docs.push(doc.data());
-        })
-        exercises.value = docs;
+        this.$patch({ exercises: await this.fetchData(postsQuery) });
+        this.firstPageId = this.exercises[0].eid;
+    };
 
-        loading.value = false;
-    }
+    const fetchPreviousPage = async () => {
+        if (!this.getHasPreviousPage) return;
+        const nuxtApp = useNuxtApp();
+        const postsQuery = query(
+            collection(nuxtApp.$firestore, 'exercises'),
+            orderBy('created', 'desc'),
+            endAt(this.firstExerciseFromPage.created),
+            limitToLast(postsLimit)
+        );
 
-  
-    return { getExercises, exercises, fetch, fetchNextPage, lastExerciseFromPage, firstExerciseFromPage }
-  })
-  
+        this.$patch({ exercises: await this.fetchData(postsQuery) });
+    };
+
+    const fetchNextPage = async () => {
+        const nuxtApp = useNuxtApp();
+        const postsQuery = query(
+            collection(nuxtApp.$firestore, 'exercises'),
+            orderBy('created', 'desc'),
+            startAt(this.lastExerciseFromPage.created),
+            limit(postsLimit)
+        );
+
+        this.$patch({ exercises: await this.fetchData(postsQuery) });
+    };
+
+    const mapTagNames = (tagIds) => {
+        const tagStore = useTagStore();
+
+        return tagIds?.map((id) => {
+            const tag = tagStore.getTags.find((tag) => tag.tagID === id);
+            return tag ? tag.tag : null;
+        });
+    };
+});

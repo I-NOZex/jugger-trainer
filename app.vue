@@ -9,7 +9,10 @@
 
     const colorTheme = ref('dark');
 
-    onMounted(() => {
+    const { fetch } = useTagStore();
+    fetch();
+
+    /*onMounted(() => {
         useHead({
             meta: [
                 {
@@ -31,5 +34,5 @@
                 class: colorTheme.value
             }
         });
-    };
+    };*/
 </script>

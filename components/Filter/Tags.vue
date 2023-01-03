@@ -19,38 +19,25 @@
                 ref="hzRef"
                 class="inline-flex gap-1 absolute overflow-x-auto w-full whitespace-nowrap scrollbar-hide"
             >
+                <div v-if="loading" class="z-0 space-y-2.5 animate-pulse max-w-lg">
+                    <div class="flex items-center space-x-2 w-full">
+                            <div class="h-6.5 bg-gray-200 rounded dark:bg-neutral-700 w-32"></div>
+                            <div class="h-6.5 bg-gray-300 rounded dark:bg-neutral-500 w-24"></div>
+                            <div class="h-6.5 bg-gray-300 rounded dark:bg-neutral-700 w-20"></div>
+                            <div class="h-6.5 bg-gray-300 rounded dark:bg-neutral-500 w-28"></div>
+                            <div class="h-6.5 bg-gray-200 rounded dark:bg-neutral-700 w-32"></div>
+                            <div class="h-6.5 bg-gray-300 rounded dark:bg-neutral-500 w-24"></div>
+                            <div class="h-6.5 bg-gray-300 rounded dark:bg-neutral-700 w-20"></div>
+                            <div class="h-6.5 bg-gray-300 rounded dark:bg-neutral-500 w-28"></div>  
+                            <div class="h-6.5 bg-gray-200 rounded dark:bg-neutral-700 w-32"></div>
+                            <div class="h-6.5 bg-gray-300 rounded dark:bg-neutral-500 w-24"></div>
+                            <div class="h-6.5 bg-gray-300 rounded dark:bg-neutral-700 w-20"></div>
+                            <div class="h-6.5 bg-gray-300 rounded dark:bg-neutral-500 w-28"></div>                                                        
+                    </div>
+                </div>
                 <TagsInlineList
-                    :tags="[
-                        'team-work',
-                        'coordination',
-                        'fitness',
-                        'precission',
-                        'team-work',
-                        'team-work',
-                        'coordination',
-                        'fitness',
-                        'precission',
-                        'fitness',
-                        'precission',
-                        'team-work',
-                        'team-work',
-                        'coordination',
-                        'fitness',
-                        'precission',
-                        'team-work',
-                        'team-work',
-                        'coordination',
-                        'fitness',
-                        'precission',
-                        'fitness',
-                        'precission',
-                        'team-work',
-                        'team-work',
-                        'coordination',
-                        'fitness',
-                        'precission',
-                        'team-work'
-                    ]"
+                    v-else
+                    :tags="tagNames"
                 />
             </div>
         </div>
@@ -80,12 +67,10 @@
         useSideWheel: true
     });
 
-    const props = defineProps({
-        tags: {
-            type: Array,
-            default: []
-        }
-    });
+    const {
+        getTagNames: tagNames,
+        loading
+    } = storeToRefs(useTagStore());
 
     const prev = () => {
         scrollIntoView('start', {
